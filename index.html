@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Laboratory | Institution</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.6;color:#1f2937;background:linear-gradient(120deg,#f5f7fb,#e6eef8,#f5f7fb,#eef4fb);background-size:300% 300%;animation:bgShift 16s ease infinite}
+@keyframes bgShift{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+header{background:#123b63;color:white;position:sticky;top:0;z-index:10;box-shadow:0 2px 10px #0002}
+nav{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+.logo{font-weight:700;font-size:1.15rem;display:flex;align-items:center;gap:14px}
+.logo img{height:52px;width:52px;flex-shrink:0}
+.logo-divider{width:1px;height:38px;background:rgba(255,255,255,.35)}
+.logo-text{display:flex;flex-direction:column;line-height:1.25}
+.logo-text .primary{font-size:1.05rem;font-weight:700;letter-spacing:.02em}
+.logo-text .secondary{font-size:.7rem;font-weight:400;color:#cfe0f0;letter-spacing:.04em;text-transform:uppercase}
+nav ul{display:flex;gap:22px;list-style:none}
+nav a{color:white;text-decoration:none;font-size:.95rem}
+nav a:hover{text-decoration:underline}
+.nav-toggle{display:none}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}
+.hamburger span{width:26px;height:3px;background:white;border-radius:2px}
+.hero{background:linear-gradient(135deg,#0d2b4a,#1677a8,#2fa3d9,#123b63);background-size:300% 300%;color:white;text-align:center;padding:90px 20px;animation:gradientShift 7s ease infinite}
+@keyframes gradientShift{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);margin-bottom:12px}
+.hero p{max-width:720px;margin:0 auto 25px;font-size:1.08rem}
+.btn{display:inline-block;background:white;color:#123b63;padding:11px 20px;border-radius:8px;text-decoration:none;font-weight:700}
+section{max-width:1100px;margin:auto;padding:65px 20px}
+.section-title{text-align:center;margin-bottom:35px}
+.section-title h2{font-size:2rem;color:#123b63}
+.section-title p{color:#64748b}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.card{background:white;border-radius:12px;padding:25px;box-shadow:0 5px 20px #0000000d;border:1px solid #e5e7eb}
+.card h3{color:#123b63;margin-bottom:8px}
+.icon{font-size:2rem;margin-bottom:10px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px}
+.stat{background:#123b63;color:white;padding:25px;text-align:center;border-radius:10px}
+.stat strong{display:block;font-size:2rem}
+table{width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 5px 20px #0000000d}
+th,td{padding:14px;text-align:left;border-bottom:1px solid #e5e7eb}
+th{background:#123b63;color:white}
+.rules li{margin:10px 0;padding-left:5px}
+.contact{background:white;border-radius:12px;padding:30px;box-shadow:0 5px 20px #0000000d}
+footer{background:#0b2945;color:#dbeafe;text-align:center;padding:25px}
+@media(max-width:700px){
+.hamburger{display:flex}
+nav ul{display:none;flex-direction:column;gap:0;position:absolute;top:100%;left:0;right:0;background:#123b63;padding:10px 0;box-shadow:0 8px 15px #0003}
+nav ul li{width:100%}
+nav ul li a{display:block;padding:12px 20px}
+.nav-toggle:checked ~ ul{display:flex}
+.logo img{height:38px;width:38px}
+.logo-divider{height:30px}
+.logo-text .primary{font-size:.9rem}
+.logo-text .secondary{font-size:.62rem}
+.hero{padding:65px 18px}
+section{padding:45px 18px}
+.gallery a{flex:1 1 calc(50% - 15px);max-width:calc(50% - 15px)}
+}
+@media(max-width:480px){
+.gallery a{flex:1 1 100%;max-width:100%}
+}
+ 
+.gallery {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.gallery a {
+  flex: 1 1 calc(25% - 15px);
+  max-width: calc(25% - 15px);
+}
+img.zoomable {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+img.zoomable:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px #0003;
+}
+ 
+.overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  flex-direction: column;
+}
+.overlay:target {
+  display: flex;
+}
+.overlay img {
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #000;
+}
+.overlay a {
+  color: white;
+  font-size: 2rem;
+  text-decoration: none;
+  margin: 15px;
+}
+.overlay .nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 40px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.overlay .close {
+  position: absolute;
+  top: 20px; right: 30px;
+}
+ 
+</style>
+</head>
+<body>
+<header>
+<nav>
+<div class="logo">
+<img src="Pictures/CSPC-Seal.png" alt="CSPC Seal">
+<div class="logo-divider"></div>
+<div class="logo-text">
+<span class="primary">CTDE Computer Laboratory</span>
+<span class="secondary">Camarines Sur Polytechnic Colleges</span>
+</div>
+</div>
+<input type="checkbox" id="navToggle" class="nav-toggle">
+<label for="navToggle" class="hamburger"><span></span><span></span><span></span></label>
+<ul>
+<li><a href="#home">Home</a></li>
+<li><a href="#facilities">Facilities</a></li>
+<li><a href="#resources">Resources</a></li>
+<li><a href="#software">Software</a></li>
+<li><a href="#schedule">Schedule</a></li>
+<li><a href="booking.html">Book a Slot</a></li>
+<li><a href="#rules">Rules</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+</nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+<h1>Computer Laboratory</h1>
+<p>Supporting teaching, learning, digital literacy, research, and technology-enabled activities of our institution.</p>
+<a class="btn" href="#facilities">Explore the Laboratory</a>
+</section>
+
+<section id="facilities">
+<div class="section-title"><h2>Laboratory Facilities</h2><p>Resources available for students, faculty, and authorized users.</p></div>
+<div class="stats">
+<div class="stat"><strong>40</strong>Computer Workstations</div>
+<div class="stat"><strong>1 Gbps</strong>Network Backbone</div>
+<div class="stat"><strong>Wi-Fi</strong>Internet Access</div>
+<div class="stat"><strong>24/7</strong>Online Resources</div>
+</div>
+<br>
+<div class="cards">
+<div class="card"><div class="icon">🖥️</div><h3>Computer Workstations</h3><p>Desktop computers suitable for productivity applications, programming, research, and multimedia activities.</p></div>
+<div class="card"><div class="icon">🌐</div><h3>Network & Internet</h3><p>Reliable LAN and Wi-Fi connectivity for authorized academic and institutional activities.</p></div>
+<div class="card"><div class="icon">📽️</div><h3>Presentation Equipment</h3><p>Projector and display equipment for classes, demonstrations, presentations, and training.</p></div>
+<div class="card"><div class="icon">🛠️</div><h3>Technical Support</h3><p>Basic troubleshooting, software assistance, account support, and laboratory maintenance.</p></div>
+</div>
+<br>
+ <!-- Uploaded Pictures -->
+<div class="gallery">
+  <a href="#img1"><img src="Pictures/CTDE 1.JPG" alt="Lab 1" class="zoomable"></a>
+  <a href="#img2"><img src="Pictures/CTDE 2.JPG" alt="Lab 2" class="zoomable"></a>
+  <a href="#img3"><img src="Pictures/CTDE 3.JPG" alt="Lab 3" class="zoomable"></a>
+  <a href="#img4"><img src="Pictures/CTDE 4.JPG" alt="Lab 4" class="zoomable"></a>
+</div>
+
+</section>
+
+<section id="resources">
+  <div class="section-title">
+    <h2>View Resources</h2>
+    <p>Access PDF documents and uploaded pictures directly from the laboratory portal.</p>
+  </div>
+
+  <!-- PDF Viewer -->
+  <div class="card">
+    <p>You can view the laboratory guidelines PDF below:</p>
+    <embed src="PDF/CSPC ICT Laboratory Manual.pdf" type="application/pdf" width="100%" height="600px" />
+  </div>
+</section>
+
+
+<section id="software">
+<div class="section-title"><h2>Software & Digital Resources</h2><p>Common software and services available in the laboratory.</p></div>
+<div class="cards">
+<div class="card"><h3>Microsoft 365</h3><p>Word, Excel, PowerPoint, Teams, OneDrive, and other Microsoft 365 services for academic work.</p></div>
+<div class="card"><h3>Operating System</h3><p>Licensed operating system environment maintained according to institutional IT policies.</p></div>
+<div class="card"><h3>Web Browsers</h3><p>Modern browsers for accessing learning management systems, research databases, and web applications.</p></div>
+<div class="card"><h3>Academic Tools</h3><p>Programming, graphics, productivity, collaboration, and other applications as required by courses.</p></div>
+</div>
+</section>
+
+<section id="schedule">
+<div class="section-title"><h2>Laboratory Schedule</h2><p>AY 2026-2027</p></div>
+<table>
+<tr><th>Day</th><th>Morning</th><th>Afternoon</th></tr>
+<tr><td>Monday</td><td>8:00 AM – 12:00 PM</td><td>1:00 PM – 4:00 PM</td></tr>
+<tr><td>Tuesday</td><td>8:00 AM – 12:00 PM</td><td>1:00 PM – 5:00 PM</td></tr>
+<tr><td>Wednesday</td><td>8:00 AM – 12:00 PM</td><td>1:00 PM – 4:00 PM</td></tr>
+<tr><td>Thursday</td><td>8:00 AM – 12:00 PM</td><td>1:00 PM – 5:00 PM</td></tr>
+<tr><td>Friday</td><td>8:00 AM – 12:00 PM</td><td>1:00 PM – 4:00 PM</td></tr>
+</table>
+<p style="text-align:center;margin-top:20px">
+<a class="btn" style="background:#123b63;color:white" href="booking.html">Book a Vacant Time Slot &rarr;</a>
+</p>
+</section>
+
+<section id="rules">
+<div class="section-title"><h2>Laboratory Rules</h2><p>Help us keep the laboratory safe, clean, and available to everyone.</p></div>
+<div class="card rules">
+<ol>
+<h2>USING OF MOBILE PHONE DEVICES IS PROHIBITED</h2>
+<li>Use laboratory computers only for authorized academic or institutional activities.</li>
+<li>The student should wear a proper uniform and ID. P.E. uniform is not allowed.</li>
+<li>Students must record their details in the logbook provided.</li>
+<li>The student should only sit in their assigned seat based on the seating plan.</li>
+<li>The student must check the computer unit and its peripherals attached before using it. The student
+must immediately inform the instructor if there's any defect, error, or damage observed on the
+computer (hardware/software) assigned or if there are any missing peripherals (mouse, keyboard,
+etc.). The instructor should immediately report the matter to the Laboratory-in-charge or Laboratory
+Technician assigned for immediate action needed. The students assigned to each computer are
+financially liable in case of loss or damage.</li>
+<li>Students are prohibited from loitering inside the laboratory, especially if there is no faculty inside.</li>
+<li>Students are not allowed to bring food and beverages inside the laboratory. Eating, drinking,
+smoking, and littering are prohibited inside the computer laboratory.</li>
+<li>Users are responsible for saving their documents on their own flash drives, any information saved
+or installed on the system hard drive will be deleted once the Computer is rebooted (restarted).</li>
+<li>No one is allowed to alter or delete the configuration settings of any computer laboratory equipment.
+Tampering, deleting, or modifying CMOS/BIOS' settings, IP Configuration, system parameters, or
+system files stored on the hard disk are strictly prohibited.</li>
+<li>No student or personnel shall be allowed to attach or detach any peripheral to and from any
+equipment or devices without explicit permission from the Computer Lab-in-charge. Users are not
+allowed to attach personal devices such as flash drives to the computer laboratory's network
+without permission from the instructor.</li>
+<li>Accessing pornographic, gambling, hate/discrimination, torrent, and other unsafe sites are strictly
+prohibited.</li>
+<li>Students are not allowed to install, update or download any software on any computers inside the
+laboratories. It is also forbidden for users to boot from any bootable devices to run software on any
+computer in the laboratory. In cases that there is a need to install, update, or download software or
+boot from another device, the instructor must seek approval from the computer lab-in-charge.
+However, if there is a need to install application software, the instructor should heads-up the
+laboratory-in-charge for the said installation.</li>
+<li>Playing games is not allowed inside the computer laboratory, this includes video games, card
+games, and other games. However, in cases where the topic is related to games, the instructor
+must inform the computer lab-in-charge or the computer technician.</li>
+<li>Anyone who is causing disturbance, trouble, and exhibiting hostile or threatening behavior will be
+requested to leave the computer laboratory.</li>
+<li>Printing of manuscripts, business letters, banners, personal documents and research works are
+not allowed in the laboratory.</li>
+<li>The one-person, one-machine policy is strictly enforced. Watchers will be asked to leave.</li>
+<li>Proper computer laboratory etiquette must be observed;</li>
+<li>Ensure that no trash is left behind.</li>
+<li>Turn off computer units and arrange the computer peripherals (mouse, keyboard, and
+headset) after use.</li>
+<li>Wearing hats/caps inside the laboratory is not allowed.</li>
+<li>Chairs must be returned properly to their original places.</li>
+<li>The orderly dismissal must be observed by the instructor and the class.</li>
+<li>Theft, vandalism, or abuse in any form is a grave offense and shall be dealt with accordingly.</li>
+</ol>
+</div>
+</section>
+
+</main>
+
+<footer>
+<p>&copy; 2026 Computer Laboratory | CAMARINES SUR POLYTECHNIC COLLEGES</p>
+<p>For educational and institutional use.</p>
+
+<!-- Overlay Slides -->
+<div id="img1" class="overlay">
+  <a href="#" class="close">&times;</a>
+  <img src="Pictures/CTDE 1.JPG" alt="Lab 1 Enlarged">
+  <div class="nav">
+    <a href="#img4">&#10094;</a> <!-- Previous -->
+    <a href="#img2">&#10095;</a> <!-- Next -->
+  </div>
+</div>
+
+<div id="img2" class="overlay">
+  <a href="#" class="close">&times;</a>
+  <img src="Pictures/CTDE 2.JPG" alt="Lab 2 Enlarged">
+  <div class="nav">
+    <a href="#img1">&#10094;</a>
+    <a href="#img3">&#10095;</a>
+  </div>
+</div>
+
+<div id="img3" class="overlay">
+  <a href="#" class="close">&times;</a>
+  <img src="Pictures/CTDE 3.JPG" alt="Lab 3 Enlarged">
+  <div class="nav">
+    <a href="#img2">&#10094;</a>
+    <a href="#img4">&#10095;</a>
+  </div>
+</div>
+
+  <div id="img4" class="overlay">
+  <a href="#" class="close">&times;</a>
+  <img src="Pictures/CTDE 4.JPG" alt="Lab 4 Enlarged">
+  <div class="nav">
+    <a href="#img3">&#10094;</a>
+    <a href="#img1">&#10095;</a>
+  </div>
+</div>
+
+  
+</footer>
+</body>
+</html>

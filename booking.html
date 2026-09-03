@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Time Slot | Computer Laboratory | Institution</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.6;color:#1f2937;background:linear-gradient(120deg,#f5f7fb,#e6eef8,#f5f7fb,#eef4fb);background-size:300% 300%;animation:bgShift 16s ease infinite}
+@keyframes bgShift{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+header{background:#123b63;color:white;position:sticky;top:0;z-index:10;box-shadow:0 2px 10px #0002}
+nav{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+.logo{font-weight:700;font-size:1.15rem;display:flex;align-items:center;gap:14px}
+.logo img{height:52px;width:52px;flex-shrink:0}
+.logo-divider{width:1px;height:38px;background:rgba(255,255,255,.35)}
+.logo-text{display:flex;flex-direction:column;line-height:1.25}
+.logo-text .primary{font-size:1.05rem;font-weight:700;letter-spacing:.02em}
+.logo-text .secondary{font-size:.7rem;font-weight:400;color:#cfe0f0;letter-spacing:.04em;text-transform:uppercase}
+nav ul{display:flex;gap:22px;list-style:none}
+nav a{color:white;text-decoration:none;font-size:.95rem}
+nav a:hover{text-decoration:underline}
+nav a.active{text-decoration:underline;font-weight:700}
+.nav-toggle{display:none}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}
+.hamburger span{width:26px;height:3px;background:white;border-radius:2px}
+.hero{background:linear-gradient(135deg,#0d2b4a,#1677a8,#2fa3d9,#123b63);background-size:300% 300%;color:white;text-align:center;padding:90px 20px;animation:gradientShift 7s ease infinite}
+@keyframes gradientShift{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);margin-bottom:12px}
+.hero p{max-width:720px;margin:0 auto 25px;font-size:1.08rem}
+section{max-width:1100px;margin:auto;padding:65px 20px}
+.section-title{text-align:center;margin-bottom:35px}
+.section-title h2{font-size:2rem;color:#123b63}
+.section-title p{color:#64748b}
+.card{background:white;border-radius:12px;padding:25px;box-shadow:0 5px 20px #0000000d;border:1px solid #e5e7eb}
+
+.occupied-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:5px}
+.occupied-list li{background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:12px 15px;font-size:.92rem}
+.occupied-list li strong{color:#123b63;display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:3px}
+
+.legend{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-bottom:25px;font-size:.9rem}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.swatch{width:16px;height:16px;border-radius:4px;display:inline-block}
+.swatch.vacant{background:#22c55e}
+.swatch.occupied{background:#cbd5e1}
+.swatch.full{background:#ef4444}
+
+.schedule-wrap{overflow-x:auto;background:white;border-radius:12px;box-shadow:0 5px 20px #0000000d;padding:10px}
+table.slot-grid{width:100%;border-collapse:collapse;min-width:640px}
+table.slot-grid th,table.slot-grid td{border:1px solid #e5e7eb;text-align:center;padding:0}
+table.slot-grid th{background:#123b63;color:white;padding:10px 6px;font-size:.85rem}
+table.slot-grid td.time-col{background:#f8fafc;font-weight:700;color:#123b63;font-size:.8rem;padding:8px 6px;white-space:nowrap}
+
+.slot{display:block;padding:10px 4px;font-size:.78rem;text-decoration:none;color:#14532d;background:#dcfce7;transition:background .2s ease}
+.slot:hover{background:#bbf7d0}
+.slot.occupied{background:#f1f5f9;color:#94a3b8;cursor:default;pointer-events:none}
+.slot.full{background:#fee2e2;color:#991b1b;cursor:default;pointer-events:none}
+
+.note{margin-top:25px;font-size:.85rem;color:#64748b;text-align:center}
+
+footer{background:#0b2945;color:#dbeafe;text-align:center;padding:25px}
+
+@media(max-width:700px){
+.hamburger{display:flex}
+nav ul{display:none;flex-direction:column;gap:0;position:absolute;top:100%;left:0;right:0;background:#123b63;padding:10px 0;box-shadow:0 8px 15px #0003}
+nav ul li{width:100%}
+nav ul li a{display:block;padding:12px 20px}
+.nav-toggle:checked ~ ul{display:flex}
+.logo img{height:38px;width:38px}
+.logo-divider{height:30px}
+.logo-text .primary{font-size:.9rem}
+.logo-text .secondary{font-size:.62rem}
+.hero{padding:65px 18px}
+section{padding:45px 18px}
+}
+</style>
+</head>
+<body>
+<header>
+<nav>
+<div class="logo">
+<img src="Pictures/CSPC-Seal.png" alt="CSPC Seal">
+<div class="logo-divider"></div>
+<div class="logo-text">
+<span class="primary">CTDE Computer Laboratory</span>
+<span class="secondary">Camarines Sur Polytechnic Colleges</span>
+</div>
+</div>
+<input type="checkbox" id="navToggle" class="nav-toggle">
+<label for="navToggle" class="hamburger"><span></span><span></span><span></span></label>
+<ul>
+<li><a href="index.html#home">Home</a></li>
+<li><a href="index.html#facilities">Facilities</a></li>
+<li><a href="index.html#resources">Resources</a></li>
+<li><a href="index.html#software">Software</a></li>
+<li><a href="index.html#schedule">Schedule</a></li>
+<li><a href="booking.html" class="active">Book a Slot</a></li>
+<li><a href="index.html#rules">Rules</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+</nav>
+</header>
+
+<main>
+<section class="hero">
+<h1>Book a Time Slot</h1>
+<p>Check which hours are currently vacant and reserve one for your class or personal use through our reservation form.</p>
+</section>
+
+<section id="occupied-hours">
+<div class="section-title">
+<h2>Occupied Hours</h2>
+<p>These hours are already committed to regular classes and are automatically blocked out in the grid below. To edit, scroll to the config section near the bottom of this file and change the range text (e.g. "1:00 PM to 4:00 PM") &mdash; no need to edit each individual hour.</p>
+</div>
+
+<div class="card">
+<ul class="occupied-list" id="occupiedList"></ul>
+</div>
+</section>
+
+<section id="booking">
+<div class="section-title">
+<h2>Reserve a Time Slot</h2>
+<p>Pick a date, then tap a green hour to open the reservation form for that date and time.</p>
+</div>
+
+<div class="card" style="margin-bottom:20px;text-align:center">
+<label for="datePick" style="font-weight:700;color:#123b63;display:block;margin-bottom:8px">Select a date</label>
+<input type="date" id="datePick" style="padding:10px 14px;border:1px solid #cbd5e1;border-radius:8px;font-size:1rem">
+<p id="selectedDayLabel" style="margin-top:10px;color:#64748b;font-size:.9rem"></p>
+</div>
+
+<div class="legend">
+<span><span class="swatch vacant"></span> Vacant — click to reserve</span>
+<span><span class="swatch occupied"></span> Occupied — already scheduled</span>
+<span><span class="swatch full"></span> Full — 20 reservations reached</span>
+</div>
+
+<div class="schedule-wrap">
+<table class="slot-grid" id="slotGrid"></table>
+</div>
+
+<p class="note" id="liveStatus"></p>
+<p class="note">Reservations are requests, not confirmations — the Laboratory In-Charge will confirm availability before your slot is finalized. Each slot allows a maximum of 20 reservations, per date.</p>
+</section>
+</main>
+
+<footer>
+<p>&copy; 2026 Computer Laboratory | CAMARINES SUR POLYTECHNIC COLLEGES</p>
+<p>For educational and institutional use.</p>
+</footer>
+
+<script>
+/* ===================== CONFIGURE HERE ===================== */
+
+// 1. Paste your Google Form URL below (the "Send" > link icon URL, e.g. https://forms.gle/xxxxxxxx
+//    or the full https://docs.google.com/forms/d/e/.../viewform link).
+const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdXksKejl8XZhZNglcJRvBfBx-84_hpvsfW_usuvHnkQxngrg/viewform";
+
+// 2. Optional: if your Google Form has "prefill" entry IDs, put them here
+//    (Form > ⋮ menu > "Get pre-filled link" to find entry.XXXXXXX numbers).
+//    Leave as null to skip prefilling that field.
+const FORM_TIME_ENTRY = null;   // e.g. "entry.987654321"  (single value)
+// Date questions in Google Forms use THREE sub-fields instead of one.
+// Get these from "Get pre-filled link" the same way, but look for
+// entry.XXXXXXX_year, entry.XXXXXXX_month, entry.XXXXXXX_day and just
+// paste the common XXXXXXX number below (without _year/_month/_day).
+const FORM_DATE_ENTRY_BASE = null; // e.g. "entry.555555555"
+
+// 3. Days and hourly slots — MUST match your Form's exact answer choices.
+const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+const HOURS = [
+  { label: "8:00 - 9:00 AM",   start: "8:00 AM",  end: "9:00 AM" },
+  { label: "9:00 - 10:00 AM",  start: "9:00 AM",  end: "10:00 AM" },
+  { label: "10:00 - 11:00 AM", start: "10:00 AM", end: "11:00 AM" },
+  { label: "11:00 - 12:00 PM", start: "11:00 AM", end: "12:00 PM" },
+  { label: "12:00 - 1:00 PM",  start: "12:00 PM", end: "1:00 PM" },
+  { label: "1:00 - 2:00 PM",   start: "1:00 PM",  end: "2:00 PM" },
+  { label: "2:00 - 3:00 PM",   start: "2:00 PM",  end: "3:00 PM" },
+  { label: "3:00 - 4:00 PM",   start: "3:00 PM",  end: "4:00 PM" },
+  { label: "4:00 - 5:00 PM",   start: "4:00 PM",  end: "5:00 PM" }
+];
+
+// 4. Occupied hours — the ONLY place you need to edit this. Write each block as a
+//    simple range in plain language, e.g. "1:00 PM to 4:00 PM". This automatically
+//    blocks every overlapping hourly slot AND shows up in the "Occupied Hours" list
+//    above — no need to list each hour separately. These repeat every week.
+const OCCUPIED_RANGES = [
+  { day: "Monday",    range: "8:00 AM to 10:00 AM" },
+  { day: "Tuesday",   range: "10:00 AM to 11:00 AM" },
+  { day: "Wednesday", range: "1:00 PM to 4:00 PM" },
+  { day: "Thursday",  range: "2:00 PM to 3:00 PM" },
+  { day: "Friday",    range: "3:00 PM to 4:00 PM" }
+  // add more { day: "...", range: "... to ..." } entries as needed
+];
+
+// 5. Maximum number of reservations allowed per vacant slot, PER DATE
+//    (e.g. Monday 9-10 AM allows 20 people on October 6, then resets to 0/20
+//    again for October 13 — it does not accumulate forever).
+const SLOT_LIMIT = 20;
+
+// 6. LIVE COUNTS from your Google Form's response spreadsheet.
+//    a) Add a "Date" question to your Form (Date question type).
+//    b) Share the linked response Sheet: General access -> "Anyone with the
+//       link" -> Viewer.
+//    c) Copy the Sheet ID from its URL: .../spreadsheets/d/THIS_PART/edit
+//    d) Copy the exact tab name at the bottom (usually "Form Responses 1").
+//    e) Set TIME_COLUMN / DATE_COLUMN to your Form's EXACT question titles
+//       (these become the column headers in the sheet). Day-of-week is
+//       derived automatically from the date, so there's no Day column needed.
+//    Leave SHEET_ID empty ("") to skip live fetching and use FALLBACK_COUNTS.
+const SHEET_ID = "1d8VhcC2dBhZr6luPOrp0qO1IYJ-L4SUt3Y03-JF6LYQ";
+const SHEET_TAB_NAME = "Form Responses 1";
+const TIME_COLUMN = "Time Options";     // must match your Form's Time question title
+const DATE_COLUMN = "Reservation Date"; // must match your Form's Date question title
+
+// 7. Fallback counts used if live fetching is off or fails. Format:
+//    "YYYY-MM-DD|Hour label": count. Only needed as a manual backup.
+const FALLBACK_COUNTS = {
+  // "2026-10-06|9:00 - 10:00 AM": 14,
+};
+
+/* =================== END CONFIGURATION ==================== */
+
+// ---- time parsing helpers ----
+function parseTimeToMinutes(t) {
+  const m = t.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!m) return null;
+  let [, h, min, ampm] = m;
+  h = parseInt(h, 10);
+  min = parseInt(min, 10);
+  ampm = ampm.toUpperCase();
+  if (ampm === "PM" && h !== 12) h += 12;
+  if (ampm === "AM" && h === 12) h = 0;
+  return h * 60 + min;
+}
+
+function parseRange(rangeStr) {
+  const parts = rangeStr.split(/\s+to\s+/i);
+  if (parts.length !== 2) return null;
+  const start = parseTimeToMinutes(parts[0]);
+  const end = parseTimeToMinutes(parts[1]);
+  if (start === null || end === null) return null;
+  return { start, end };
+}
+
+function buildOccupiedSlots() {
+  const occupied = new Set();
+  OCCUPIED_RANGES.forEach(({ day, range }) => {
+    const r = parseRange(range);
+    if (!r) { console.warn("booking.html: could not parse occupied range:", range); return; }
+    HOURS.forEach(hour => {
+      const hStart = parseTimeToMinutes(hour.start);
+      const hEnd = parseTimeToMinutes(hour.end);
+      if (hStart < r.end && hEnd > r.start) {
+        occupied.add(`${day}|${hour.label}`);
+      }
+    });
+  });
+  return occupied;
+}
+
+function renderOccupiedList() {
+  const list = document.getElementById("occupiedList");
+  if (!OCCUPIED_RANGES.length) {
+    list.innerHTML = `<li style="color:#16a34a;font-weight:600">No regular classes currently block out the lab.</li>`;
+    return;
+  }
+  list.innerHTML = OCCUPIED_RANGES.map(({ day, range }) =>
+    `<li><strong>${day}</strong>${range}</li>`
+  ).join("");
+}
+
+// ---- date helpers ----
+// Parse an <input type="date"> value ("YYYY-MM-DD") as a LOCAL date (avoids
+// timezone off-by-one issues that plain `new Date(str)` can cause).
+function parseLocalDate(isoStr) {
+  const [y, m, d] = isoStr.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+
+function isoDate(dateObj) {
+  const y = dateObj.getFullYear();
+  const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const d = String(dateObj.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function weekdayName(dateObj) {
+  return dateObj.toLocaleDateString("en-US", { weekday: "long" });
+}
+
+// gviz encodes Date-typed cells' raw value as a string like "Date(2026,8,8)"
+// (month is 0-indexed). Parse that directly so we're locale/format independent.
+function parseGvizDate(v) {
+  if (typeof v !== "string") return null;
+  const m = v.match(/^Date\((\d+),(\d+),(\d+)/);
+  if (!m) return null;
+  const [, y, mo, d] = m.map(Number);
+  return new Date(y, mo, d);
+}
+
+function buildFormLink(day, hour, dateObj) {
+  let url = GOOGLE_FORM_URL;
+  const params = [];
+  if (FORM_TIME_ENTRY) params.push(FORM_TIME_ENTRY + "=" + encodeURIComponent(hour));
+  if (FORM_DATE_ENTRY_BASE) {
+    params.push(FORM_DATE_ENTRY_BASE + "_year=" + dateObj.getFullYear());
+    params.push(FORM_DATE_ENTRY_BASE + "_month=" + (dateObj.getMonth() + 1));
+    params.push(FORM_DATE_ENTRY_BASE + "_day=" + dateObj.getDate());
+  }
+  if (params.length) {
+    url += (url.includes("?") ? "&" : "?") + params.join("&");
+  }
+  return url;
+}
+
+// ---- live data fetch: cache raw rows once, filter per selected date on demand ----
+let liveRows = null; // array of { day, time, dateIso } or null if unavailable
+
+function fetchLiveRows(onDone) {
+  if (!SHEET_ID) { onDone(); return; }
+
+  const callbackName = "__gvizCallback_" + Date.now();
+  let settled = false;
+
+  const finish = () => {
+    if (settled) return;
+    settled = true;
+    delete window[callbackName];
+    script.remove();
+    onDone();
+  };
+
+  window[callbackName] = function (response) {
+    try {
+      const table = response.table;
+      const cols = table.cols.map(c => (c.label || "").trim());
+      const timeIdx = cols.indexOf(TIME_COLUMN);
+      const dateIdx = cols.indexOf(DATE_COLUMN);
+      if (timeIdx === -1 || dateIdx === -1) {
+        console.warn("booking.html: TIME_COLUMN/DATE_COLUMN not found in sheet headers:", cols);
+        finish();
+        return;
+      }
+      const rows = [];
+      table.rows.forEach(row => {
+        const time = row.c[timeIdx] && row.c[timeIdx].v;
+        const dateCell = row.c[dateIdx] && row.c[dateIdx].v;
+        const dateObj = parseGvizDate(dateCell);
+        if (!time || !dateObj) return;
+        rows.push({ time, dateIso: isoDate(dateObj) });
+      });
+      liveRows = rows;
+    } catch (e) {
+      console.warn("booking.html: failed to parse sheet response", e);
+    }
+    finish();
+  };
+
+  const url = "https://docs.google.com/spreadsheets/d/" + encodeURIComponent(SHEET_ID) +
+    "/gviz/tq?tqx=out:json;responseHandler:" + callbackName +
+    "&headers=1&sheet=" + encodeURIComponent(SHEET_TAB_NAME);
+
+  const script = document.createElement("script");
+  script.src = url;
+  script.onerror = finish;
+  setTimeout(finish, 5000); // safety timeout if sheet isn't reachable
+  document.body.appendChild(script);
+}
+
+function getCountsForDate(dateIso) {
+  if (liveRows) {
+    const counts = {};
+    liveRows.forEach(r => {
+      if (r.dateIso !== dateIso) return;
+      counts[r.time] = (counts[r.time] || 0) + 1;
+    });
+    return counts;
+  }
+  // fallback: pull matching entries out of FALLBACK_COUNTS "date|time" keys
+  const counts = {};
+  Object.keys(FALLBACK_COUNTS).forEach(key => {
+    const [d, tm] = key.split("|");
+    if (d === dateIso) counts[tm] = FALLBACK_COUNTS[key];
+  });
+  return counts;
+}
+
+function renderDayView() {
+  const picker = document.getElementById("datePick");
+  const dateObj = parseLocalDate(picker.value);
+  const day = weekdayName(dateObj);
+  const dateIso = picker.value;
+
+  document.getElementById("selectedDayLabel").textContent =
+    DAYS.includes(day)
+      ? `Showing availability for ${day}, ${dateObj.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`
+      : `The lab is closed on ${day}s — please pick a weekday (Mon–Fri).`;
+
+  const table = document.getElementById("slotGrid");
+
+  if (!DAYS.includes(day)) {
+    table.innerHTML = "";
+    return;
+  }
+
+  const occupiedSlots = buildOccupiedSlots();
+  const counts = getCountsForDate(dateIso);
+
+  let html = "<tr><th>Time</th><th>Status</th></tr>";
+  HOURS.forEach(hour => {
+    const key = `${day}|${hour.label}`;
+    const count = counts[hour.label] || 0;
+    html += `<tr><td class="time-col">${hour.label}</td>`;
+    if (occupiedSlots.has(key)) {
+      html += `<td><span class="slot occupied">Occupied</span></td>`;
+    } else if (count >= SLOT_LIMIT) {
+      html += `<td><span class="slot full">Full (${SLOT_LIMIT}/${SLOT_LIMIT})</span></td>`;
+    } else {
+      const link = buildFormLink(day, hour.label, dateObj);
+      html += `<td><a class="slot" href="${link}" target="_blank" rel="noopener">Vacant (${count}/${SLOT_LIMIT})</a></td>`;
+    }
+    html += "</tr>";
+  });
+  table.innerHTML = html;
+
+  const statusEl = document.getElementById("liveStatus");
+  statusEl.textContent = liveRows
+    ? "Counts last synced just now from the reservation form."
+    : "Showing saved counts (live sync unavailable) — refresh to try again.";
+}
+
+// ---- init ----
+renderOccupiedList();
+
+const datePicker = document.getElementById("datePick");
+const todayIso = isoDate(new Date());
+datePicker.min = todayIso;
+datePicker.value = todayIso;
+datePicker.addEventListener("change", renderDayView);
+
+document.getElementById("slotGrid").innerHTML =
+  '<tr><td style="padding:20px;text-align:center;color:#64748b">Loading availability...</td></tr>';
+fetchLiveRows(renderDayView);
+</script>
+
+<script>
+// NOTE: this only discourages casual right-click / DevTools shortcuts.
+// It is not real security — see the site's own admin notes for details.
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  const k = e.key.toUpperCase();
+  if (
+    e.key === 'F12' ||
+    (e.ctrlKey && e.shiftKey && (k === 'I' || k === 'J' || k === 'C')) ||
+    (e.ctrlKey && k === 'U')
+  ) {
+    e.preventDefault();
+  }
+});
+</script>
+</body>
+</html>
