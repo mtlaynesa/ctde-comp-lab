@@ -1,6 +1,6 @@
 # CTDE Computer Laboratory Website
 
-Official website for the Computer Laboratory of the **College of Technological and Developmental Education (CTDE)**, Camarines Sur Polytechnic Colleges (CSPC).
+Un-official website for the Computer Laboratory of the **College of Technological and Developmental Education (CTDE)**.
 
 A static, no-backend website providing lab information, resources, and a time-slot reservation system for students.
 
@@ -8,8 +8,8 @@ A static, no-backend website providing lab information, resources, and a time-sl
 
 ## 🌐 Live Site
 
-Published via GitHub Pages: `https://<your-username>.github.io/<repo-name>/`
-*(replace with your actual custom domain once set up, e.g. `ctde.cspc.edu.ph`)*
+Published via GitHub Pages: `https://mtlaynesa.github.io/ctde-comp-lab/index.html`
+
 
 ---
 
@@ -44,7 +44,6 @@ Published via GitHub Pages: `https://<your-username>.github.io/<repo-name>/`
     └── CSPC ICT Laboratory Manual.pdf
 ```
 
-All image and PDF filenames must match exactly (including spaces and capitalization) — the HTML references these paths directly.
 
 ---
 
@@ -70,12 +69,6 @@ The booking page has no backend of its own — it reads live reservation counts 
 
 ---
 
-## 🚀 Publishing (GitHub Pages)
-
-1. Push all files (including `Pictures/` and `PDF/`) to the repository's default branch.
-2. Go to **Settings → Pages** → set the source to that branch.
-3. Enable **Enforce HTTPS**.
-4. *(Optional)* Add a custom domain (e.g. a subdomain from your school's IT team, like `ctde.cspc.edu.ph`) under **Settings → Pages → Custom domain**.
 
 ---
 
