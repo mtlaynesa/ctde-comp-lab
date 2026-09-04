@@ -4,16 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Computer Laboratory | Institution</title>
-<script>
-// Apply saved theme before first paint to avoid a light-mode flash
-(function(){
-  try {
-    if (localStorage.getItem('theme') === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-  } catch (e) {}
-})();
-</script>
 <style>
 :root{
   --bg1:#f5f7fb; --bg2:#e6eef8; --bg3:#eef4fb;
@@ -22,14 +12,6 @@
   --accent:#123b63;
   --table-header-bg:#123b63;
   --stat-bg:#123b63;
-}
-[data-theme="dark"]{
-  --bg1:#0f172a; --bg2:#111827; --bg3:#0b1220;
-  --card-bg:#1e293b; --card-border:#334155;
-  --text:#e5e7eb; --text-muted:#94a3b8;
-  --accent:#6bb6f0;
-  --table-header-bg:#0b1f36;
-  --stat-bg:#0b1f36;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -53,13 +35,6 @@ nav a:hover{text-decoration:underline}
 .nav-toggle{display:none}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}
 .hamburger span{width:26px;height:3px;background:white;border-radius:2px}
-
-.theme-toggle{display:inline-flex;align-items:center;cursor:pointer}
-.theme-toggle input{display:none}
-.theme-toggle .track{width:46px;height:24px;background:rgba(255,255,255,.25);border-radius:999px;position:relative;transition:background .2s ease}
-.theme-toggle .thumb{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-size:11px;transition:left .2s ease}
-.theme-toggle input:checked ~ .track{background:#2fa3d9}
-.theme-toggle input:checked ~ .track .thumb{left:24px}
 .hero{background:linear-gradient(135deg,#0d2b4a,#1677a8,#2fa3d9,#123b63);background-size:300% 300%;color:white;text-align:center;padding:90px 20px;animation:gradientShift 7s ease infinite}
 @keyframes gradientShift{
 0%{background-position:0% 50%}
@@ -180,10 +155,6 @@ img.zoomable:hover {
 <span class="secondary">Camarines Sur Polytechnic Colleges</span>
 </div>
 </div>
-<label class="theme-toggle" title="Toggle dark mode">
-<input type="checkbox" id="themeSwitch">
-<span class="track"><span class="thumb">🌙</span></span>
-</label>
 <input type="checkbox" id="navToggle" class="nav-toggle">
 <label for="navToggle" class="hamburger"><span></span><span></span><span></span></label>
 <ul>
@@ -384,20 +355,6 @@ document.addEventListener('keydown', e => {
     (e.ctrlKey && k === 'U')
   ) {
     e.preventDefault();
-  }
-});
-</script>
-
-<script>
-const themeSwitch = document.getElementById('themeSwitch');
-themeSwitch.checked = document.documentElement.getAttribute('data-theme') === 'dark';
-themeSwitch.addEventListener('change', () => {
-  if (themeSwitch.checked) {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    localStorage.setItem('theme', 'dark');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-    localStorage.setItem('theme', 'light');
   }
 });
 </script>
