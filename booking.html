@@ -4,10 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Book a Time Slot | Computer Laboratory | Institution</title>
+<script>
+(function(){
+  try {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  } catch (e) {}
+})();
+</script>
 <style>
+:root{
+  --bg1:#f5f7fb; --bg2:#e6eef8; --bg3:#eef4fb;
+  --card-bg:#ffffff; --card-border:#e5e7eb;
+  --text:#1f2937; --text-muted:#64748b;
+  --accent:#123b63;
+  --time-col-bg:#f8fafc;
+}
+[data-theme="dark"]{
+  --bg1:#0f172a; --bg2:#111827; --bg3:#0b1220;
+  --card-bg:#1e293b; --card-border:#334155;
+  --text:#e5e7eb; --text-muted:#94a3b8;
+  --accent:#6bb6f0;
+  --time-col-bg:#16213a;
+}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:Arial,Helvetica,sans-serif;line-height:1.6;color:#1f2937;background:linear-gradient(120deg,#f5f7fb,#e6eef8,#f5f7fb,#eef4fb);background-size:300% 300%;animation:bgShift 16s ease infinite}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.6;color:var(--text);background:linear-gradient(120deg,var(--bg1),var(--bg2),var(--bg1),var(--bg3));background-size:300% 300%;animation:bgShift 16s ease infinite}
 @keyframes bgShift{
 0%{background-position:0% 50%}
 50%{background-position:100% 50%}
@@ -28,6 +51,13 @@ nav a.active{text-decoration:underline;font-weight:700}
 .nav-toggle{display:none}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}
 .hamburger span{width:26px;height:3px;background:white;border-radius:2px}
+
+.theme-toggle{display:inline-flex;align-items:center;cursor:pointer}
+.theme-toggle input{display:none}
+.theme-toggle .track{width:46px;height:24px;background:rgba(255,255,255,.25);border-radius:999px;position:relative;transition:background .2s ease}
+.theme-toggle .thumb{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-size:11px;transition:left .2s ease}
+.theme-toggle input:checked ~ .track{background:#2fa3d9}
+.theme-toggle input:checked ~ .track .thumb{left:24px}
 .hero{background:linear-gradient(135deg,#0d2b4a,#1677a8,#2fa3d9,#123b63);background-size:300% 300%;color:white;text-align:center;padding:90px 20px;animation:gradientShift 7s ease infinite}
 @keyframes gradientShift{
 0%{background-position:0% 50%}
@@ -38,12 +68,12 @@ nav a.active{text-decoration:underline;font-weight:700}
 .hero p{max-width:720px;margin:0 auto 25px;font-size:1.08rem}
 section{max-width:1100px;margin:auto;padding:65px 20px}
 .section-title{text-align:center;margin-bottom:35px}
-.section-title h2{font-size:2rem;color:#123b63}
-.section-title p{color:#64748b}
-.card{background:white;border-radius:12px;padding:25px;box-shadow:0 5px 20px #0000000d;border:1px solid #e5e7eb}
+.section-title h2{font-size:2rem;color:var(--accent)}
+.section-title p{color:var(--text-muted)}
+.card{background:var(--card-bg);border-radius:12px;padding:25px;box-shadow:0 5px 20px #0000000d;border:1px solid var(--card-border)}
 
 .occupied-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:5px}
-.occupied-list li{background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:12px 15px;font-size:.92rem}
+.occupied-list li{background:var(--time-col-bg);border:1px solid var(--card-border);border-radius:8px;padding:12px 15px;font-size:.92rem}
 .occupied-list li strong{color:#123b63;display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:3px}
 
 .legend{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-bottom:25px;font-size:.9rem}
@@ -53,11 +83,11 @@ section{max-width:1100px;margin:auto;padding:65px 20px}
 .swatch.occupied{background:#cbd5e1}
 .swatch.full{background:#ef4444}
 
-.schedule-wrap{overflow-x:auto;background:white;border-radius:12px;box-shadow:0 5px 20px #0000000d;padding:10px}
+.schedule-wrap{overflow-x:auto;background:var(--card-bg);border-radius:12px;box-shadow:0 5px 20px #0000000d;padding:10px}
 table.slot-grid{width:100%;border-collapse:collapse;min-width:640px}
-table.slot-grid th,table.slot-grid td{border:1px solid #e5e7eb;text-align:center;padding:0}
+table.slot-grid th,table.slot-grid td{border:1px solid var(--card-border);text-align:center;padding:0}
 table.slot-grid th{background:#123b63;color:white;padding:10px 6px;font-size:.85rem}
-table.slot-grid td.time-col{background:#f8fafc;font-weight:700;color:#123b63;font-size:.8rem;padding:8px 6px;white-space:nowrap}
+table.slot-grid td.time-col{background:var(--time-col-bg);font-weight:700;color:var(--accent);font-size:.8rem;padding:8px 6px;white-space:nowrap}
 
 .slot{display:block;padding:10px 4px;font-size:.78rem;text-decoration:none;color:#14532d;background:#dcfce7;transition:background .2s ease}
 .slot:hover{background:#bbf7d0}
@@ -94,6 +124,10 @@ section{padding:45px 18px}
 <span class="secondary">Camarines Sur Polytechnic Colleges</span>
 </div>
 </div>
+<label class="theme-toggle" title="Toggle dark mode">
+<input type="checkbox" id="themeSwitch">
+<span class="track"><span class="thumb">🌙</span></span>
+</label>
 <input type="checkbox" id="navToggle" class="nav-toggle">
 <label for="navToggle" class="hamburger"><span></span><span></span><span></span></label>
 <ul>
@@ -102,6 +136,7 @@ section{padding:45px 18px}
 <li><a href="index.html#resources">Resources</a></li>
 <li><a href="index.html#software">Software</a></li>
 <li><a href="index.html#schedule">Schedule</a></li>
+<li><a href="forms.html">Forms</a></li>
 <li><a href="booking.html" class="active">Book a Slot</a></li>
 <li><a href="index.html#rules">Rules</a></li>
 <li><a href="contact.html">Contact</a></li>
@@ -470,6 +505,20 @@ document.addEventListener('keydown', e => {
     (e.ctrlKey && k === 'U')
   ) {
     e.preventDefault();
+  }
+});
+</script>
+
+<script>
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.checked = document.documentElement.getAttribute('data-theme') === 'dark';
+themeSwitch.addEventListener('change', () => {
+  if (themeSwitch.checked) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('theme', 'light');
   }
 });
 </script>

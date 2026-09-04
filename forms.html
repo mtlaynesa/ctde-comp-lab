@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact | Computer Laboratory | Institution</title>
+<title>Forms | Computer Laboratory | Institution</title>
 <script>
 (function(){
   try {
@@ -56,6 +56,7 @@ nav a.active{text-decoration:underline;font-weight:700}
 .theme-toggle .thumb{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-size:11px;transition:left .2s ease}
 .theme-toggle input:checked ~ .track{background:#2fa3d9}
 .theme-toggle input:checked ~ .track .thumb{left:24px}
+
 .hero{background:linear-gradient(135deg,#0d2b4a,#1677a8,#2fa3d9,#123b63);background-size:300% 300%;color:white;text-align:center;padding:90px 20px;animation:gradientShift 7s ease infinite}
 @keyframes gradientShift{
 0%{background-position:0% 50%}
@@ -68,20 +69,17 @@ section{max-width:1100px;margin:auto;padding:65px 20px}
 .section-title{text-align:center;margin-bottom:35px}
 .section-title h2{font-size:2rem;color:var(--accent)}
 .section-title p{color:var(--text-muted)}
-.contact{background:var(--card-bg);border-radius:12px;padding:30px;box-shadow:0 5px 20px #0000000d}
-.contact p{margin:8px 0}
-.contact hr{border:none;border-top:1px solid var(--card-border);margin:20px 0}
-.person{padding:6px 0}
-.person .role{color:var(--accent);font-weight:700;font-size:.85rem;letter-spacing:.03em;text-transform:uppercase;margin-bottom:4px}
-.person .name{font-size:1.1rem}
-.badges{display:flex;gap:15px;flex-wrap:wrap;margin-top:10px}
-.badge-holder{width:clamp(140px,22vw,220px);border:1px dashed var(--card-border);border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:var(--card-bg);padding:8px}
-.badge-holder img{width:100%;height:auto;display:block}
-.person{display:flex;gap:18px;align-items:flex-start}
-.person-info{flex:1}
-.photo-holder{width:100px;height:100px;flex-shrink:0;border:1px dashed var(--card-border);border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--card-bg);overflow:hidden}
-.photo-holder img{width:100%;height:100%;object-fit:cover}
+
+.forms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.form-card{background:var(--card-bg);border-radius:12px;padding:25px;box-shadow:0 5px 20px #0000000d;border:1px solid var(--card-border);display:flex;flex-direction:column;gap:12px}
+.form-card .icon{font-size:2rem}
+.form-card h3{color:var(--accent)}
+.form-card p{color:var(--text-muted);font-size:.92rem;flex-grow:1}
+.download-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#123b63;color:white;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.9rem}
+.download-btn:hover{background:#1677a8}
+
 footer{background:#0b2945;color:#dbeafe;text-align:center;padding:25px}
+
 @media(max-width:700px){
 .hamburger{display:flex}
 nav ul{display:none;flex-direction:column;gap:0;position:absolute;top:100%;left:0;right:0;background:#123b63;padding:10px 0;box-shadow:0 8px 15px #0003}
@@ -94,8 +92,6 @@ nav ul li a{display:block;padding:12px 20px}
 .logo-text .secondary{font-size:.62rem}
 .hero{padding:65px 18px}
 section{padding:45px 18px}
-.photo-holder{width:70px;height:70px}
-.badge-holder{width:clamp(100px,32vw,160px)}
 }
 </style>
 </head>
@@ -122,52 +118,64 @@ section{padding:45px 18px}
 <li><a href="index.html#resources">Resources</a></li>
 <li><a href="index.html#software">Software</a></li>
 <li><a href="index.html#schedule">Schedule</a></li>
-<li><a href="forms.html">Forms</a></li>
+<li><a href="booking.html">Book a Slot</a></li>
+<li><a href="forms.html" class="active">Forms</a></li>
 <li><a href="index.html#rules">Rules</a></li>
-<li><a href="contact.html" class="active">Contact</a></li>
+<li><a href="contact.html">Contact</a></li>
 </ul>
 </nav>
 </header>
 
 <main>
 <section class="hero">
-<h1>Contact Us</h1>
-<p>Get in touch with the Computer Laboratory for technical assistance, reservations, or general concerns.</p>
+<h1>Downloadable Forms</h1>
+<p>Get the official forms you need for laboratory use, equipment borrowing, and incident reporting — download, fill out, and submit as instructed on each form.</p>
 </section>
 
-<section id="contact">
-<div class="contact">
-<div class="person">
-<div class="photo-holder"><img src="Pictures/Romeo-Sotto.jpg" alt="Photo of Romeo B. Sotto Jr."></div>
-<div class="person-info">
-<div class="role">Computer Laboratory In-Charge</div>
-<div class="name">ROMEO B. SOTTO JR., LPT, MAED</div>
-<div class="badges">
-<div class="badge-holder"><img src="Pictures/Google-Cert-1.png" alt="Google Certified Educator Level 1 Badge"></div>
-<div class="badge-holder"><img src="Pictures/Google-Cert-2.png" alt="Google Certified Educator Level 2 Badge"></div>
-</div>
-</div>
+<section id="forms">
+<div class="section-title">
+<h2>Available Forms</h2>
+<p>Click Download to save a form to your device.</p>
 </div>
 
-<hr>
+<!--
+  HOW TO EDIT THIS LIST:
+  1. Put your actual PDF/DOCX files in a "Forms" folder next to this HTML file.
+  2. For each form, copy one .form-card block below and update:
+     - the icon, title, and description
+     - the href in the Download link to match your file name
+  3. Delete this comment block once you're done, or leave it as a reminder.
+-->
+<div class="forms-grid">
 
-<div class="person">
-<div class="photo-holder"><img src="Pictures/Matt-Glenn-Laynesa.jpg" alt="Photo of Matt Glenn L. Laynesa"></div>
-<div class="person-info">
-<div class="role">Computer Laboratory Technician</div>
-<div class="name">MATT GLENN L. LAYNESA, LPT</div>
-<div class="badges">
-<div class="badge-holder"><img src="Pictures/Google-Cert-1.png" alt="Google Certified Educator Level 1 Badge"></div>
-<div class="badge-holder"><img src="Pictures/Google-Cert-2.png" alt="Google Certified Educator Level 2 Badge"></div>
-</div>
-</div>
+<div class="form-card">
+<div class="icon">🖥️</div>
+<h3>Lab Equipment Borrowing Form</h3>
+<p>Use this form to request temporary use of lab equipment (e.g. projector, extra peripherals) outside of scheduled class hours.</p>
+<a class="download-btn" href="Forms/equipment-borrowing-form.pdf" download>⬇ Download PDF</a>
 </div>
 
-<hr>
+<div class="form-card">
+<div class="icon">⚠️</div>
+<h3>Incident / Damage Report Form</h3>
+<p>Report any defect, damage, or missing peripheral found on a lab computer, as required under the Laboratory Rules.</p>
+<a class="download-btn" href="Forms/incident-report-form.pdf" download>⬇ Download PDF</a>
+</div>
 
-<p><strong>Office:</strong> Computer Laboratory</p>
-<p><strong>Location:</strong> Academic Building 3 / 2nd Floor</p>
-<p><strong>Laboratory Hours:</strong> Monday–Friday, 8:00 AM–5:00 PM</p>
+<div class="form-card">
+<div class="icon">📝</div>
+<h3>Lab Usage Request Form</h3>
+<p>For instructors requesting the lab for a class session, training, or special activity outside the regular schedule.</p>
+<a class="download-btn" href="Forms/lab-usage-request-form.pdf" download>⬇ Download PDF</a>
+</div>
+
+<div class="form-card">
+<div class="icon">💾</div>
+<h3>Software Installation Request Form</h3>
+<p>Required approval form for installing, updating, or downloading software on any laboratory computer, per lab policy.</p>
+<a class="download-btn" href="Forms/software-installation-request.pdf" download>⬇ Download PDF</a>
+</div>
+
 </div>
 </section>
 </main>
@@ -176,9 +184,8 @@ section{padding:45px 18px}
 <p>&copy; 2026 Computer Laboratory | CAMARINES SUR POLYTECHNIC COLLEGES</p>
 <p>For educational and institutional use.</p>
 </footer>
+
 <script>
-// NOTE: this only discourages casual right-click / DevTools shortcuts.
-// It is not real security — see the site's own admin notes for details.
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('keydown', e => {
   const k = e.key.toUpperCase();
