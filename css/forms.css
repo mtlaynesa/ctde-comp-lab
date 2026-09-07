@@ -1,0 +1,18 @@
+/* ===================== forms.html SPECIFIC STYLES ===================== */
+
+.forms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.form-card{
+  background:var(--card-bg);border-radius:12px;padding:25px;
+  box-shadow:0 5px 20px #0000000d;border:1px solid var(--card-border);
+  display:flex;flex-direction:column;gap:12px;
+}
+.form-card .icon{font-size:2rem}
+.form-card h3{color:var(--accent)}
+.form-card p{color:var(--text-muted);font-size:.92rem;flex-grow:1}
+
+.download-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:#123b63;color:white;padding:10px 16px;border-radius:8px;
+  text-decoration:none;font-weight:700;font-size:.9rem;
+}
+.download-btn:hover{background:#1677a8}
