@@ -17,6 +17,34 @@ th{background:var(--table-header-bg);color:white}
 .schedule-cta{text-align:center;margin-top:20px}
 .schedule-cta .btn{background:#123b63;color:white}
 
+.plan-card{
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:12px;
+  box-shadow:0 5px 20px #0000000d;
+  padding:25px;
+  margin-top:30px;
+  text-align:center;
+}
+.plan-card h3{color:var(--accent);margin-bottom:6px}
+.plan-card p{color:var(--text-muted);font-size:.92rem;margin-bottom:15px}
+.plan-holder{
+  border:1px dashed var(--card-border);
+  border-radius:10px;
+  background:#f8fafc;
+  padding:10px;
+  min-height:200px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.plan-holder img{
+  max-width:100%;
+  height:auto;
+  display:block;
+  border-radius:6px;
+}
+
 /* ---------- Photo gallery ---------- */
 .gallery{display:flex;gap:15px;flex-wrap:wrap}
 .gallery a{flex:1 1 calc(25% - 15px);max-width:calc(25% - 15px)}
