@@ -37,12 +37,20 @@ th{background:var(--table-header-bg);color:white}
   display:flex;
   align-items:center;
   justify-content:center;
+  text-align:center;
 }
 .plan-holder img{
+  display:block;
+  margin:0 auto;
+  width:min(600px, 90vw);
   max-width:100%;
   height:auto;
-  display:block;
   border-radius:6px;
+}
+
+@media(max-width:700px){
+  .plan-holder{min-height:140px}
+  .plan-holder img{width:min(400px, 92vw)}
 }
 
 /* ---------- Photo gallery ---------- */
