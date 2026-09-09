@@ -38,6 +38,8 @@ th{background:var(--table-header-bg);color:white}
   align-items:center;
   justify-content:center;
   text-align:center;
+
+  img.zoomable:hover{transform:scale(1.1);box-shadow:0 8px 20px #0003}
 }
 .plan-holder img{
   display:block;
