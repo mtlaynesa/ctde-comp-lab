@@ -34,15 +34,15 @@ const HOURS = [
 //    above — no need to list each hour separately. These repeat every week.
 const OCCUPIED_RANGES = [
   { day: "Monday",    range: "8:00 AM to 12:00 PM" },
-  { day: "Monday",    range: "1:00 PM to 4:00 PM" },
+  { day: "Monday",    range: "12:00 PM to 4:00 PM" },
   { day: "Tuesday",   range: "8:00 AM to 12:00 PM" },
-  { day: "Tuesday",   range: "1:00 PM to 5:00 PM" },
+  { day: "Tuesday",   range: "12:00 PM to 5:00 PM" },
   { day: "Wednesday", range: "8:00 AM to 12:00 PM" },
-  { day: "Wednesday", range: "1:00 PM to 4:00 PM" },
+  { day: "Wednesday", range: "12:00 PM to 4:00 PM" },
   { day: "Thursday",  range: "8:00 AM to 12:00 PM" },
-  { day: "Thursday",  range: "1:00 PM to 5:00 PM" },
+  { day: "Thursday",  range: "12:00 PM to 5:00 PM" },
   { day: "Friday",    range: "8:00 AM to 12:00 PM" },
-  { day: "Friday",    range: "1:00 PM to 4:00 PM" }
+  { day: "Friday",    range: "12:00 PM to 4:00 PM" }
   // add more { day: "...", range: "... to ..." } entries as needed
 ];
 
