@@ -169,6 +169,7 @@ function buildFormLink(day, hour, dateObj) {
 
 // ---- live data fetch: cache raw rows once, filter per selected date on demand ----
 let liveRows = null; // array of { time, dateIso } or null if unavailable
+let liveFetchStatus = null; // set to a human-readable reason on failure, for on-page display
 
 function fetchLiveRows(onDone) {
   if (!SHEET_ID) { onDone(); return; }
@@ -187,24 +188,49 @@ function fetchLiveRows(onDone) {
   window[callbackName] = function (response) {
     try {
       const table = response.table;
-      const cols = table.cols.map(c => (c.label || "").trim());
-      const timeIdx = cols.indexOf(TIME_COLUMN);
-      const dateIdx = cols.indexOf(DATE_COLUMN);
+      const rawCols = table.cols.map(c => (c.label || "").trim());
+
+      // Try an exact match first, then fall back to a case-insensitive /
+      // trimmed match so small typos (extra space, different casing) don't
+      // silently break everything.
+      let timeIdx = rawCols.indexOf(TIME_COLUMN);
+      let dateIdx = rawCols.indexOf(DATE_COLUMN);
+      if (timeIdx === -1) {
+        timeIdx = rawCols.findIndex(c => c.toLowerCase() === TIME_COLUMN.trim().toLowerCase());
+      }
+      if (dateIdx === -1) {
+        dateIdx = rawCols.findIndex(c => c.toLowerCase() === DATE_COLUMN.trim().toLowerCase());
+      }
+
       if (timeIdx === -1 || dateIdx === -1) {
-        console.warn("booking.js: TIME_COLUMN/DATE_COLUMN not found in sheet headers:", cols);
+        const missing = [];
+        if (timeIdx === -1) missing.push(`TIME_COLUMN ("${TIME_COLUMN}")`);
+        if (dateIdx === -1) missing.push(`DATE_COLUMN ("${DATE_COLUMN}")`);
+        liveFetchStatus =
+          `Column mismatch: couldn't find ${missing.join(" and ")} in your sheet. ` +
+          `Actual columns found: ${rawCols.map(c => `"${c}"`).join(", ") || "(none)"}. ` +
+          `Check js/booking.js TIME_COLUMN/DATE_COLUMN match your Form's exact question titles.`;
+        console.warn("booking.js:", liveFetchStatus);
         finish();
         return;
       }
+
       const rows = [];
+      let skippedRows = 0;
       table.rows.forEach(row => {
         const time = row.c[timeIdx] && row.c[timeIdx].v;
         const dateCell = row.c[dateIdx] && row.c[dateIdx].v;
         const dateObj = parseGvizDate(dateCell);
-        if (!time || !dateObj) return;
+        if (!time || !dateObj) { skippedRows++; return; }
         rows.push({ time, dateIso: isoDate(dateObj) });
       });
       liveRows = rows;
+      liveFetchStatus = null; // success
+      if (skippedRows > 0) {
+        console.warn(`booking.js: skipped ${skippedRows} row(s) with a missing/unreadable time or date value.`);
+      }
     } catch (e) {
+      liveFetchStatus = "Unexpected error reading the sheet response — see browser console for details.";
       console.warn("booking.js: failed to parse sheet response", e);
     }
     finish();
@@ -216,8 +242,16 @@ function fetchLiveRows(onDone) {
 
   const script = document.createElement("script");
   script.src = url;
-  script.onerror = finish;
-  setTimeout(finish, 5000); // safety timeout if sheet isn't reachable
+  script.onerror = () => {
+    liveFetchStatus = "Couldn't load the sheet at all — check the Sheet is shared as \"Anyone with the link → Viewer\", and SHEET_ID/SHEET_TAB_NAME are correct.";
+    finish();
+  };
+  setTimeout(() => {
+    if (!settled) {
+      liveFetchStatus = "Sheet request timed out — likely not shared publicly. Check Sheet sharing is \"Anyone with the link → Viewer\".";
+    }
+    finish();
+  }, 5000);
   document.body.appendChild(script);
 }
 
@@ -278,9 +312,13 @@ function renderDayView() {
   table.innerHTML = html;
 
   const statusEl = document.getElementById("liveStatus");
-  statusEl.textContent = liveRows
-    ? "Counts last synced just now from the reservation form."
-    : "Showing saved counts (live sync unavailable) — refresh to try again.";
+  if (liveRows) {
+    statusEl.textContent = "Counts last synced just now from the reservation form.";
+    statusEl.style.color = "";
+  } else {
+    statusEl.textContent = liveFetchStatus || "Showing saved counts (live sync unavailable) — refresh to try again.";
+    statusEl.style.color = "#b91c1c";
+  }
 }
 
 // ---- init ----
