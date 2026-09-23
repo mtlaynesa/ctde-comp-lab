@@ -12,7 +12,7 @@
 .swatch.full{background:#ef4444}
 
 .schedule-wrap{overflow-x:auto;background:var(--card-bg);border-radius:12px;box-shadow:0 5px 20px #0000000d;padding:10px}
-table.slot-grid{width:100%;border-collapse:collapse;min-width:640px}
+table.slot-grid{width:100%;border-collapse:collapse}
 table.slot-grid th,table.slot-grid td{border:1px solid var(--card-border);text-align:center;padding:0}
 table.slot-grid th{background:#123b63;color:white;padding:10px 6px;font-size:.85rem}
 table.slot-grid td.time-col{background:#f8fafc;font-weight:700;color:var(--accent);font-size:.8rem;padding:8px 6px;white-space:nowrap}
@@ -22,9 +22,22 @@ table.slot-grid td.time-col{background:#f8fafc;font-weight:700;color:var(--accen
 .slot.occupied{background:#f1f5f9;color:#94a3b8;cursor:default;pointer-events:none}
 .slot.full{background:#fee2e2;color:#991b1b;cursor:default;pointer-events:none}
 
+@media(max-width:700px){
+  .schedule-wrap{padding:6px}
+  table.slot-grid th{font-size:.8rem;padding:10px 4px}
+  table.slot-grid td.time-col{font-size:.78rem;padding:10px 4px;white-space:normal}
+  .slot{font-size:.82rem;padding:14px 6px}
+  .legend{font-size:.82rem;gap:12px}
+}
+
 .note{margin-top:25px;font-size:.85rem;color:#64748b;text-align:center}
 
 .date-picker-card{margin-bottom:20px;text-align:center}
 .date-picker-card label{font-weight:700;color:#123b63;display:block;margin-bottom:8px}
 .date-picker-card input[type="date"]{padding:10px 14px;border:1px solid #cbd5e1;border-radius:8px;font-size:1rem}
 .date-picker-card p{margin-top:10px;color:#64748b;font-size:.9rem}
+
+@media(max-width:700px){
+  .occupied-list{grid-template-columns:1fr}
+  .date-picker-card input[type="date"]{width:100%;max-width:280px}
+}
