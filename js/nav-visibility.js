@@ -9,7 +9,7 @@
 //   HIDDEN_TABS = ["forms.html", "index.html#resources"];
 // Leave the array empty to show every tab normally.
 const HIDDEN_TABS = [
-  // "forms.html",
+   "index.html#resources",
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
