@@ -11,11 +11,12 @@
 .swatch.occupied{background:#cbd5e1}
 .swatch.full{background:#ef4444}
 
-.schedule-wrap{overflow-x:auto;background:var(--card-bg);border-radius:12px;box-shadow:0 5px 20px #0000000d;padding:10px}
-table.slot-grid{width:100%;border-collapse:collapse}
+.schedule-wrap{background:var(--card-bg);border-radius:12px;box-shadow:0 5px 20px #0000000d;padding:10px}
+table.slot-grid{width:100%;border-collapse:collapse;table-layout:fixed}
 table.slot-grid th,table.slot-grid td{border:1px solid var(--card-border);text-align:center;padding:0}
 table.slot-grid th{background:#123b63;color:white;padding:10px 6px;font-size:.85rem}
-table.slot-grid td.time-col{background:#f8fafc;font-weight:700;color:var(--accent);font-size:.8rem;padding:8px 6px;white-space:nowrap}
+table.slot-grid th:first-child,
+table.slot-grid td.time-col{width:44%;background:#f8fafc;font-weight:700;color:var(--accent);font-size:.8rem;padding:8px 4px;white-space:normal;word-break:break-word}
 
 .slot{display:block;padding:10px 4px;font-size:.78rem;text-decoration:none;color:#14532d;background:#dcfce7;transition:background .2s ease}
 .slot:hover{background:#bbf7d0}
