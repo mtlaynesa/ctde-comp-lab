@@ -3,13 +3,17 @@
    Edit ONLY this file to hide/show a nav tab across ALL pages at once.
    This works because every page (index.html, contact.html, booking.html,
    forms.html) loads this same script.
+
+   IMPORTANT: a tab's href is written differently depending on which page
+   it's on. For a section inside index.html (like Resources or Schedule):
+     - On index.html itself, the link is written as "#resources"
+     - On every OTHER page, the link is written as "index.html#resources"
+   List BOTH forms below so it gets hidden everywhere consistently.
 ========================================================================*/
 
-// List the exact href value of each tab you want hidden, e.g.:
-//   HIDDEN_TABS = ["forms.html", "index.html#resources"];
-// Leave the array empty to show every tab normally.
 const HIDDEN_TABS = [
-   "index.html#resources"
+  "#resources",
+  "index.html#resources",
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
